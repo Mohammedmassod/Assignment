@@ -1,5 +1,5 @@
 ﻿using Assignment.Models;
-
+using Assignment.DTO;
 namespace Assignment.Repository
 {
     public interface IEmployeeRepository

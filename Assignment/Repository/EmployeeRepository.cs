@@ -1,6 +1,7 @@
 ﻿using Assignment.DB;
 using Assignment.Models;
 using Microsoft.EntityFrameworkCore;
+using Assignment.DTO;
 
 namespace Assignment.Repository
 {
