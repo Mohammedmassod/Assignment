@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Assignment.DB;
 using Assignment.Models;
+using Assignment.DTO;
 
 namespace Assignment.Controllers
 {
@@ -29,7 +30,9 @@ namespace Assignment.Controllers
           {
               return NotFound();
           }
-            return await _context.Departments.ToListAsync();
+            List<Department> deptList = await _context.Departments.ToListAsync();
+            return Ok(deptList);//response Body Json
+                                // return await _context.Departments.ToListAsync();
         }
 
         // GET: api/Departments/5
@@ -40,14 +43,21 @@ namespace Assignment.Controllers
           {
               return NotFound();
           }
-            var department = await _context.Departments.FindAsync(id);
+            var department = await _context.Departments.Include(d => d.Employee).FirstOrDefaultAsync(s => s.Id == id);
+            DEpartmentDEtailsWithEmployeeNAme DepDto = new DEpartmentDEtailsWithEmployeeNAme();
+            DepDto.ID=id;
+            DepDto.DeptName = department.Name;
+            foreach (var item in department.Employee)
+            {
+                DepDto.EmployeesName.Add(item.Name);
+            }
 
             if (department == null)
             {
                 return NotFound();
             }
 
-            return department;
+            return Ok(DepDto);
         }
 
         // PUT: api/Departments/5

@@ -21,7 +21,11 @@ namespace Assignment.Repository
 
         public async Task<Employee> GetById(int id)
         {
-            return await _context.Employees.FindAsync(id);
+            //Include(s => s.Department) لاجل يرحع لنا اوبجكت من جدول اخر
+
+            var employee = await _context.Employees.Include(s => s.Department)
+                                                    .FirstOrDefaultAsync(s => s.Id == id);
+            return employee;
         }
 
         public async Task<Employee> Add(Employee employee)

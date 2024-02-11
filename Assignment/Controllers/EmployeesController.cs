@@ -1,4 +1,5 @@
-﻿using Assignment.Models;
+﻿using Assignment.DTO;
+using Assignment.Models;
 using Assignment.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +30,12 @@ namespace Assignment.Controllers
             if (employee == null)
                 return NotFound();
 
-            return Ok(employee);
+            EmployeeDataWithDepartmentNameDTO EmpDto = new EmployeeDataWithDepartmentNameDTO();
+            EmpDto.DepartmentName = employee.Department.Name;
+            EmpDto.Address = employee.Address;
+            EmpDto.StudentName = employee.Name;
+            EmpDto.ID = employee.Id;
+            return Ok(EmpDto);
         }
 
         [HttpPost]
